@@ -1,6 +1,15 @@
 export const buttonStyles = {
-  defaultProps: {
-    colorScheme: "primary",
-    textStyle: "button",
+  baseStyle: {
+    borderRadius: 0,
+  },
+  sizes: {
+    md: {
+      fontSize: "14px",
+    },
+  },
+  variants: {
+    solid: {
+      bg: "primary.400",
+    },
   },
 };
