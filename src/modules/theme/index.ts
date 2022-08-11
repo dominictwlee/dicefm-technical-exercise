@@ -3,6 +3,7 @@ import colors from "./colors";
 import textStyles from "./textStyles";
 import typography from "./typography";
 import { buttonStyles } from "./components";
+import headingStyles from "./heading";
 
 const theme = extendTheme(
   {
@@ -11,6 +12,7 @@ const theme = extendTheme(
     ...typography,
     components: {
       Button: buttonStyles,
+      Heading: headingStyles,
     },
   },
   withDefaultColorScheme({

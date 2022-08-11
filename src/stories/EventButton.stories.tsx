@@ -1,7 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import EventButton from "../modules/events/EventButton";
+import EventButton from "../modules/event/EventButton";
 
 export default {
   title: "Components/EventButton",

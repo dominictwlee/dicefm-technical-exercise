@@ -18,7 +18,7 @@ const textStyles = {
     lineHeight: "16px",
     letterSpacing: "0.05em",
     textTransform: "uppercase",
-    color: "primary",
+    color: "primary.400",
   },
   subtitle3: {
     fontWeight: "600",
@@ -30,7 +30,7 @@ const textStyles = {
     fontSize: "16px",
     lineHeight: "20px",
   },
-  caption: {
+  caption1: {
     fontSize: "16px",
     lineHeight: "18px",
   },
