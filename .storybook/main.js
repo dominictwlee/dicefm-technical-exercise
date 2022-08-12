@@ -6,6 +6,7 @@ module.exports = {
     "@storybook/addon-interactions",
     "@chakra-ui/storybook-addon",
   ],
+  staticDirs: ["../public"],
   features: {
     emotionAlias: false,
   },

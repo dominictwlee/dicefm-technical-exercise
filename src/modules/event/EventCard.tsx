@@ -1,1 +1,5 @@
-export default function EventCard() {}
+import { Box } from "@chakra-ui/react";
+
+export default function EventCard() {
+  return null;
+}
