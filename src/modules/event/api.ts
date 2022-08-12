@@ -3,7 +3,7 @@ export interface DiceEvent {
   sale_end_date: string;
   raw_description: string;
   status: string;
-  images: {}[];
+  images: string[];
   apple_music_tracks: {
     open_url: string;
     preview_url: string;
@@ -17,7 +17,7 @@ export interface DiceEvent {
   };
   name: string;
   presented_by: string;
-  genre_tags: {}[];
+  genre_tags: string[];
   hash: string;
   venue: string;
   detailed_artists: {
@@ -67,7 +67,7 @@ export interface DiceEvent {
   }[];
   int_id: number;
   destination_event_perm_name: null;
-  type_tags: {}[];
+  type_tags: string[];
   cities: {
     code: string;
     country_alpha3: string;
@@ -89,12 +89,12 @@ export interface DiceEvent {
     lng: number;
     place: string;
   };
-  flags: {}[];
+  flags: string[];
   perm_name: string;
-  links: {}[];
-  artists: {}[];
+  links: string[];
+  artists: string[];
   timezone: string;
-  tags: {}[];
+  tags: string[];
   destination_event_id: null;
   sale_start_date: string;
   lineup: {
