@@ -1,7 +1,6 @@
 import { Button, ButtonProps } from "@chakra-ui/react";
 
-type EventButtonProps = Omit<ButtonProps, "textStyle">;
-export default function EventButton(props: EventButtonProps) {
+export default function EventButton(props: ButtonProps) {
   return (
     <Button
       {...props}
