@@ -5,7 +5,6 @@ import { DiceEvent } from "./api";
 
 export enum EventImageVariant {
   Square = "square",
-  Portrait = "portrait",
   Landscape = "landscape",
 }
 

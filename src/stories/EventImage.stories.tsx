@@ -25,11 +25,6 @@ Square.args = {
   variant: EventImageVariant.Square,
 };
 
-export const Portrait = Template.bind({});
-Portrait.args = {
-  variant: EventImageVariant.Portrait,
-};
-
 export const Landscape = Template.bind({});
 Landscape.args = {
   variant: EventImageVariant.Landscape,
