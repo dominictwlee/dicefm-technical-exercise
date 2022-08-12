@@ -16,16 +16,17 @@ export default {
     ticketTypes: [
       {
         name: "Basic",
-        price: { face_value: 12, fees: 1, total: 13 },
+        price: { face_value: 1200, fees: 100, total: 1300 },
         id: 123123124124,
       },
       {
         name: "VIP",
-        price: { face_value: 19, fees: 1, total: 20 },
+        price: { face_value: 1900, fees: 100, total: 2000 },
         sold_out: true,
         id: 2412412421,
       },
     ],
+    currency: "GBP",
   },
 } as ComponentMeta<typeof EventInfoExpandable>;
 

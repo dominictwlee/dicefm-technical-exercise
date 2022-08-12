@@ -1,3 +1,5 @@
+import { Currency } from "dinero.js";
+
 export interface DiceEvent {
   age_limit: string;
   sale_end_date: string;
@@ -42,7 +44,7 @@ export interface DiceEvent {
   url: string;
   address: string;
   announcement_date: string;
-  currency: string;
+  currency: Currency;
   id: string;
   spotify_tracks: {
     open_url: string;

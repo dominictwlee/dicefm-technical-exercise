@@ -13,15 +13,20 @@ import {
 } from "@chakra-ui/react";
 import { PropsWithChildren, ReactElement } from "react";
 import { MdAdd, MdOutlineRemove, MdHorizontalRule } from "react-icons/md";
+import Dinero, { Currency } from "dinero.js";
 import { DiceEvent } from "./api";
 
 interface EventInfoExpandableProps {
   description: string;
   lineup: DiceEvent["lineup"];
   ticketTypes: DiceEvent["ticket_types"];
-  lowestPrice: number;
+  currency: Currency;
 }
-export default function EventInfoExpandable({ lineup, ticketTypes }: EventInfoExpandableProps) {
+export default function EventInfoExpandable({
+  lineup,
+  ticketTypes,
+  currency,
+}: EventInfoExpandableProps) {
   return (
     <Accordion allowToggle>
       <AccordionItem>
@@ -51,16 +56,22 @@ export default function EventInfoExpandable({ lineup, ticketTypes }: EventInfoEx
               </Box>
 
               <EventListedInfo title="tickets">
-                {ticketTypes.map((ticketType) => (
-                  <EventListedInfoItem
-                    key={ticketType.id}
-                    name={ticketType.name}
-                    description={`£${ticketType.price.face_value}`}
-                    rightAdornment={
-                      ticketType.sold_out ? <Text variant="caption2">sold out</Text> : undefined
-                    }
-                  />
-                ))}
+                {ticketTypes.map((ticketType) => {
+                  const price = Dinero({
+                    amount: ticketType.price.total,
+                    currency,
+                  }).toFormat("$0,0.00");
+                  return (
+                    <EventListedInfoItem
+                      key={ticketType.id}
+                      name={ticketType.name}
+                      description={price}
+                      rightAdornment={
+                        ticketType.sold_out ? <Text variant="caption2">sold out</Text> : undefined
+                      }
+                    />
+                  );
+                })}
               </EventListedInfo>
             </AccordionPanel>
           </>
