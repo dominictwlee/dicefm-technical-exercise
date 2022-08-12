@@ -3,6 +3,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import EventImage, { EventImageVariant } from "../modules/event/EventImage";
 import { Box } from "@chakra-ui/react";
+import { addDays } from "date-fns";
 
 export default {
   title: "Components/EventImage",
@@ -13,14 +14,11 @@ export default {
       portrait: "/event_image_portrait.jpg",
       square: "/event_image_square.jpg",
     },
+    saleStartDate: new Date().toISOString(),
   },
 } as ComponentMeta<typeof EventImage>;
 
-const Template: ComponentStory<typeof EventImage> = (args) => (
-  <Box maxW="320px">
-    <EventImage {...args} />
-  </Box>
-);
+const Template: ComponentStory<typeof EventImage> = (args) => <EventImage {...args} />;
 
 export const Square = Template.bind({});
 Square.args = {
@@ -35,4 +33,14 @@ Portrait.args = {
 export const Landscape = Template.bind({});
 Landscape.args = {
   variant: EventImageVariant.Landscape,
+};
+
+export const Featured = Template.bind({});
+Featured.args = {
+  isFeatured: true,
+};
+
+export const FutureOnSale = Template.bind({});
+FutureOnSale.args = {
+  saleStartDate: addDays(new Date(), 1).toISOString(),
 };

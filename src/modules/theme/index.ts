@@ -2,8 +2,7 @@ import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import colors from "./colors";
 import textStyles from "./textStyles";
 import typography from "./typography";
-import { buttonStyles } from "./components";
-import headingStyles from "./heading";
+import { buttonStyles, headingStyles, textComponentStyles } from "./components";
 
 const theme = extendTheme(
   {
@@ -13,6 +12,7 @@ const theme = extendTheme(
     components: {
       Button: buttonStyles,
       Heading: headingStyles,
+      Text: textComponentStyles,
     },
   },
   withDefaultColorScheme({

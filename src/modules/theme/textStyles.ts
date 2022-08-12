@@ -42,6 +42,7 @@ const textStyles = {
   },
   button: {
     fontSize: "14px",
+    fontWeight: 600,
     lineHeight: "16px",
     letterSpacing: "0.05em",
     textTransform: "uppercase",

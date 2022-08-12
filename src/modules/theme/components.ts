@@ -1,3 +1,5 @@
+import textStyles from "./textStyles";
+
 export const buttonStyles = {
   baseStyle: {
     borderRadius: 0,
@@ -11,5 +13,17 @@ export const buttonStyles = {
     solid: {
       bg: "primary.400",
     },
+  },
+};
+
+export const headingStyles = {
+  variants: {
+    ...textStyles,
+  },
+};
+
+export const textComponentStyles = {
+  variants: {
+    ...textStyles,
   },
 };

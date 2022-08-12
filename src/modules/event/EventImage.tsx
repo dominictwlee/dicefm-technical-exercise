@@ -1,4 +1,6 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
+import { format, compareAsc } from "date-fns";
+import { ReactNode } from "react";
 import { DiceEvent } from "./api";
 
 export enum EventImageVariant {
@@ -7,18 +9,100 @@ export enum EventImageVariant {
   Landscape = "landscape",
 }
 
+const featuredBadgeDimensions = {
+  h: 27,
+  w: 97,
+};
+
+const onSaleBadgeDimensions = {
+  h: 27,
+  w: 180,
+};
+
 interface EventImage {
   eventImages: DiceEvent["event_images"];
   variant?: EventImageVariant;
+  isFeatured?: boolean;
+  saleStartDate: string;
 }
 export default function EventImage({
   eventImages,
   variant = EventImageVariant.Square,
+  isFeatured,
+  saleStartDate,
 }: EventImage) {
   const image = eventImages[variant];
+  const showDate = new Date(saleStartDate);
+  const isFutureShowDate = compareAsc(new Date(), showDate) === -1;
+
+  function renderBadge() {
+    if (isFutureShowDate) {
+      const formattedShowDate = format(new Date(saleStartDate), "d MMM h:mmaaa");
+      return (
+        <Box
+          position="relative"
+          bottom={`${onSaleBadgeDimensions.h + 8}px`}
+          left={`calc(100% - ${onSaleBadgeDimensions.w + 12}px)`}
+        >
+          <OnSaleBadge>{formattedShowDate}</OnSaleBadge>
+        </Box>
+      );
+    }
+
+    if (isFeatured) {
+      return (
+        <Box
+          position="relative"
+          bottom={`${featuredBadgeDimensions.h + 8}px`}
+          left={`calc(100% - ${featuredBadgeDimensions.w + 12}px)`}
+        >
+          <FeaturedBadge />
+        </Box>
+      );
+    }
+
+    return null;
+  }
+
   return (
-    <Box>
+    <Box w="320px">
       <Image src={image} alt="Event Image" />
+      {renderBadge()}
+    </Box>
+  );
+}
+
+interface OnSaleBadgeProps {
+  children: ReactNode;
+}
+function OnSaleBadge({ children }: OnSaleBadgeProps) {
+  return (
+    <Box
+      h={`${onSaleBadgeDimensions.h}px`}
+      maxW={`${onSaleBadgeDimensions.w}px`}
+      bg="black"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      px={2}
+    >
+      <Text variant="subtitle3">{`On sale ${children}`}</Text>
+    </Box>
+  );
+}
+
+function FeaturedBadge() {
+  return (
+    <Box
+      h={`${featuredBadgeDimensions.h}px`}
+      maxW={`${featuredBadgeDimensions.w}px`}
+      bg="primary.400"
+      px={2}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Text variant="button">featured</Text>
     </Box>
   );
 }
