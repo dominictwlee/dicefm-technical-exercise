@@ -10,14 +10,20 @@ export default {
   args: {
     lineup: [
       { details: "Ben Frost", time: "" },
+      { details: "Tim Hecker", time: "" },
       { details: "Curfew", time: "10pm" },
     ],
     ticketTypes: [
       {
-        name: "Ben Frost",
+        name: "Basic",
         price: { face_value: 12, fees: 1, total: 13 },
-        sold_out: true,
         id: 123123124124,
+      },
+      {
+        name: "VIP",
+        price: { face_value: 19, fees: 1, total: 20 },
+        sold_out: true,
+        id: 2412412421,
       },
     ],
   },

@@ -11,7 +11,7 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import { MdAdd, MdOutlineRemove, MdHorizontalRule } from "react-icons/md";
 import { DiceEvent } from "./api";
 
@@ -42,18 +42,23 @@ export default function EventInfoExpandable({ lineup, ticketTypes }: EventInfoEx
                 exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
               </Text>
 
-              <EventListedInfo title="line up">
-                {lineup.map((l) => (
-                  <EventListedInfoItem name={l.details} descriptor={l.time} />
-                ))}
-              </EventListedInfo>
+              <Box py={4}>
+                <EventListedInfo title="line up">
+                  {lineup.map((l) => (
+                    <EventListedInfoItem key={l.details} name={l.details} description={l.time} />
+                  ))}
+                </EventListedInfo>
+              </Box>
 
               <EventListedInfo title="tickets">
                 {ticketTypes.map((ticketType) => (
                   <EventListedInfoItem
+                    key={ticketType.id}
                     name={ticketType.name}
-                    descriptor={`£${ticketType.price.face_value}`}
-                    extraDetails={ticketType.sold_out ? "sold out" : undefined}
+                    description={`£${ticketType.price.face_value}`}
+                    rightAdornment={
+                      ticketType.sold_out ? <Text variant="caption2">sold out</Text> : undefined
+                    }
                   />
                 ))}
               </EventListedInfo>
@@ -71,38 +76,37 @@ interface EventListedInfoProps {
 }
 function EventListedInfo({ title, children }: EventListedInfoProps) {
   return (
-    <Box py={4}>
-      <Heading as="h4" variant="subtitle2" mb={2}>
+    <Box>
+      <Heading as="h4" variant="subtitle2" mb={1}>
         {title}
       </Heading>
-      <List spacing={1}>{children}</List>
+      <List>{children}</List>
     </Box>
   );
 }
 
 interface EventListedInfoItemProps {
   name: string;
-  descriptor?: string;
-  extraDetails?: string;
+  description: string;
+  rightAdornment?: ReactElement;
 }
-function EventListedInfoItem({ name, descriptor, extraDetails }: EventListedInfoItemProps) {
+function EventListedInfoItem({ name, description, rightAdornment }: EventListedInfoItemProps) {
   return (
-    <ListItem textStyle="caption1" display="flex" alignItems="center">
-      <Text>{name} </Text>
-      {descriptor && (
+    <ListItem textStyle="caption1" display="flex" alignItems="center" minH={8}>
+      <Text>{name}</Text>
+      {description && (
         <>
-          <Box as="span" display="inline-block">
+          <Box pt={1}>
             <LongDashIcon />
           </Box>
-          <Box as="span" textStyle="caption2">
-            {" "}
-            {descriptor}
-          </Box>
+          <Text variant="caption1" fontWeight={600}>
+            {description}
+          </Text>
         </>
       )}
-      {extraDetails && (
-        <Box as="span" textStyle="caption2" display="inline-block" ml={2} fontWeight={600}>
-          {extraDetails}
+      {rightAdornment && (
+        <Box textStyle="caption2" ml={2} fontWeight={600}>
+          {rightAdornment}
         </Box>
       )}
     </ListItem>
