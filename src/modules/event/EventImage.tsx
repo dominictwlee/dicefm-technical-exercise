@@ -23,16 +23,16 @@ interface EventImage {
   variant?: EventImageVariant;
   isFeatured?: boolean;
   saleStartDate: string;
+  isFutureShowDate: boolean;
 }
 export default function EventImage({
   eventImages,
   variant = EventImageVariant.Square,
   isFeatured,
   saleStartDate,
+  isFutureShowDate,
 }: EventImage) {
   const image = eventImages[variant];
-  const showDate = new Date(saleStartDate);
-  const isFutureShowDate = compareAsc(new Date(), showDate) === -1;
 
   function renderBadge() {
     if (isFutureShowDate) {

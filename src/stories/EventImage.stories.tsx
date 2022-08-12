@@ -15,6 +15,7 @@ export default {
       square: "/event_image_square.jpg",
     },
     saleStartDate: new Date().toISOString(),
+    isFutureShowDate: false,
   },
 } as ComponentMeta<typeof EventImage>;
 
@@ -38,4 +39,5 @@ Featured.args = {
 export const FutureOnSale = Template.bind({});
 FutureOnSale.args = {
   saleStartDate: addDays(new Date(), 1).toISOString(),
+  isFutureShowDate: true,
 };
