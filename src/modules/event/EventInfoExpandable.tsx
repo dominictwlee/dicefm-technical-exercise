@@ -26,6 +26,7 @@ export default function EventInfoExpandable({
   lineup,
   ticketTypes,
   currency,
+  description,
 }: EventInfoExpandableProps) {
   return (
     <Accordion allowToggle>
@@ -41,11 +42,7 @@ export default function EventInfoExpandable({
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} textStyle="body1" bg="lightGray">
-              <Text>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </Text>
+              <Text>{description}</Text>
 
               <Box py={4}>
                 <EventListedInfo title="line up">
