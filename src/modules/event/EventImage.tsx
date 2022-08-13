@@ -34,7 +34,6 @@ export default function EventImage({
   isFutureShowDate,
 }: EventImage) {
   const image = eventImages[variant];
-  console.log(image);
 
   function renderBadge() {
     if (isFutureShowDate) {
@@ -68,6 +67,8 @@ export default function EventImage({
   return (
     <Box w="320px">
       <Image
+        placeholder="blur"
+        blurDataURL="/image_shimmer_square.svg"
         src={image}
         alt="Event Image"
         width="320px"

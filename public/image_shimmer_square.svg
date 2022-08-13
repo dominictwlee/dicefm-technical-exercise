@@ -1,0 +1,12 @@
+<svg width="320px" height="320px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="g">
+      <stop stop-color="#666" offset="20%" />
+      <stop stop-color="#555" offset="50%" />
+      <stop stop-color="#666" offset="70%" />
+    </linearGradient>
+  </defs>
+  <rect width="320px" height="320px" fill="#666" />
+  <rect id="r" width="320px" height="320px" fill="url(#g)" />
+  <animate xlink:href="#r" attributeName="x" from="-320px" to="320px" dur="1s" repeatCount="indefinite"  />
+</svg>
