@@ -7,6 +7,7 @@ import Head from "next/head";
 import { useState } from "react";
 import EventCard from "@/modules/event/EventCard";
 import EventSearchBar from "@/modules/event/EventSearchBar";
+import { capitalizeAllWords } from "@/common/utils/capitalize";
 
 interface EventListHomeProps {
   events: GetDiceEventsResponse;
@@ -17,9 +18,10 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
     useInfiniteQuery(["events", { searchTerms }], ({ pageParam = 1 }) =>
       getEvents({ filter: { venue: searchTerms }, page: { number: pageParam } })
     );
+  const hasNoResults = data?.pages.length === 1 && data.pages[0]?.data.length === 0;
 
   const onSearchSubmit = (value: string) => {
-    setSearchTerms(value);
+    setSearchTerms(capitalizeAllWords(value));
   };
 
   return (
@@ -43,47 +45,70 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
               "2xl": "repeat(4, 1fr)",
             }}
             gap={8}
+            justifyItems="center"
           >
             <GridItem
+              justifySelf="start"
               colSpan={{
                 base: 1,
                 md: 2,
                 lg: 3,
                 "2xl": 4,
               }}
-              minH="30px"
             >
-              <Heading variant="title2" as="h1" textAlign="left">
-                Upcoming events {searchTerms ? `at ${searchTerms}` : null}
-              </Heading>
+              {hasNoResults ? (
+                <Heading variant="title2" as="h1" textAlign="start">
+                  {"Sorry...we couldn't find anything"}
+                </Heading>
+              ) : status === "loading" ? null : (
+                <Heading variant="title2" as="h1" textAlign="start">
+                  Upcoming events {searchTerms ? `at ${searchTerms}` : null}
+                </Heading>
+              )}
             </GridItem>
 
-            {data?.pages.map((response) => {
-              return response.data.map((event) => {
-                return (
-                  <GridItem key={event.id}>
-                    <EventCard
-                      saleStartDate={event.sale_start_date}
-                      eventImages={event.event_images}
-                      date={event.date}
-                      name={event.name}
-                      location={event.location}
-                      description={event.description}
-                      lineup={event.lineup}
-                      ticketTypes={event.ticket_types}
-                      currency={event.currency}
-                      isFeatured={event.featured}
-                      venue={event.venue}
-                    />
-                  </GridItem>
-                );
-              });
-            })}
+            {hasNoResults ? (
+              <EmptyGridItems />
+            ) : (
+              data?.pages.map((response) => {
+                return response.data.map((event) => {
+                  return (
+                    <GridItem key={event.id}>
+                      <EventCard
+                        saleStartDate={event.sale_start_date}
+                        eventImages={event.event_images}
+                        date={event.date}
+                        name={event.name}
+                        location={event.location}
+                        description={event.description}
+                        lineup={event.lineup}
+                        ticketTypes={event.ticket_types}
+                        currency={event.currency}
+                        isFeatured={event.featured}
+                        venue={event.venue}
+                      />
+                    </GridItem>
+                  );
+                });
+              })
+            )}
           </Grid>
         </Center>
       </Box>
     </Box>
   );
 };
+
+function EmptyGridItems() {
+  return (
+    <>
+      {new Array(4).fill(null).map((_, index) => (
+        <GridItem key={`gridFiller-${index}`}>
+          <Box minW="320px" minH="1px" />
+        </GridItem>
+      ))}
+    </>
+  );
+}
 
 export default EventListHome;
