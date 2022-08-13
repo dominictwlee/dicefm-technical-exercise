@@ -5,7 +5,15 @@ import theme from "@/modules/theme";
 import { useRef } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClientRef = useRef(new QueryClient());
+  const queryClientRef = useRef(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+        },
+      },
+    })
+  );
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <ChakraProvider theme={theme}>
