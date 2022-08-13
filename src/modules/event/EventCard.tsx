@@ -22,6 +22,9 @@ interface EventCardProps {
   currency: Currency;
   isFeatured: boolean;
   venue: string;
+  audioSrc?: string | null;
+  isPlaying: boolean;
+  onPlayClick: () => void;
 }
 export default function EventCard({
   saleStartDate,
@@ -35,6 +38,9 @@ export default function EventCard({
   currency,
   isFeatured,
   venue,
+  audioSrc,
+  isPlaying,
+  onPlayClick,
 }: EventCardProps) {
   const [isAccordianOpen, setIsAccordianOpen] = useState(false);
   const rawDate = new Date(date);
@@ -78,6 +84,9 @@ export default function EventCard({
         isFeatured={isFeatured}
         variant={isAccordianOpen ? EventImageVariant.Landscape : EventImageVariant.Square}
         isFutureShowDate={isFutureSaleDate}
+        audioSrc={audioSrc}
+        isPlaying={isPlaying}
+        onPlayClick={onPlayClick}
       />
 
       <Box textStyle="caption1" display="flex" alignItems="center" my={2}>

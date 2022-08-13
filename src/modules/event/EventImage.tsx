@@ -1,4 +1,5 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Icon, Square, Text, IconButton } from "@chakra-ui/react";
+import { MdPlayArrow, MdPause } from "react-icons/md";
 import Image from "next/image";
 import { format, compareAsc } from "date-fns";
 import { ReactNode } from "react";
@@ -25,6 +26,9 @@ interface EventImage {
   isFeatured?: boolean;
   saleStartDate: string;
   isFutureShowDate: boolean;
+  audioSrc?: string | null;
+  onPlayClick?: () => void;
+  isPlaying: boolean;
 }
 export default function EventImage({
   eventImages,
@@ -32,6 +36,9 @@ export default function EventImage({
   isFeatured,
   saleStartDate,
   isFutureShowDate,
+  audioSrc,
+  onPlayClick,
+  isPlaying,
 }: EventImage) {
   const image = eventImages[variant];
 
@@ -65,7 +72,7 @@ export default function EventImage({
   }
 
   return (
-    <Box w="320px">
+    <Box w="320px" maxH="320px">
       <Image
         placeholder="blur"
         blurDataURL="/image_shimmer_square.svg"
@@ -75,6 +82,24 @@ export default function EventImage({
         height={variant === EventImageVariant.Landscape ? "160px" : "320px"}
       />
       {renderBadge()}
+      {audioSrc && (
+        <Box position="relative" bottom="58px">
+          <IconButton
+            onClick={onPlayClick}
+            aria-label="Audio Control"
+            w="50px"
+            h="50px"
+            bg="rgba(0, 0, 0, 0.5)"
+            _hover={{
+              bg: "rgba(0, 0, 0, 0.7)",
+            }}
+            _active={{
+              bg: "rgba(0, 0, 0, 0.8)",
+            }}
+            icon={<Icon as={isPlaying ? MdPause : MdPlayArrow} boxSize="32px" color="white" />}
+          />
+        </Box>
+      )}
     </Box>
   );
 }

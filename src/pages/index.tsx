@@ -1,10 +1,10 @@
 import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
 import { getEvents } from "@/modules/event/api";
-import { GetDiceEventsResponse } from "@/modules/event/types";
+import { DiceEvent, GetDiceEventsResponse } from "@/modules/event/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EventCard from "@/modules/event/EventCard";
 import EventSearchBar from "@/modules/event/EventSearchBar";
 import { capitalizeAllWords } from "@/common/utils/capitalize";
@@ -27,6 +27,40 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
         },
       }
     );
+  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
+  const [isAudioPlayerReady, setIsAudioPlayerReady] = useState(false);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
+  useEffect(() => {
+    if (audioPlayerRef.current === null) {
+      audioPlayerRef.current = new Audio();
+      setIsAudioPlayerReady(true);
+      console.log("called");
+    }
+  }, []);
+
+  useEffect(() => {
+    function handlePlay() {
+      console.log("PLAY CALLED");
+
+      setIsAudioPlaying(true);
+    }
+    function handlePause() {
+      console.log("PAUSE CALLED");
+
+      console.log("CALLED");
+
+      setIsAudioPlaying(false);
+    }
+    const playListener = audioPlayerRef.current?.addEventListener("play", handlePlay);
+    const pauseListener = audioPlayerRef.current?.addEventListener("pause", handlePause);
+
+    () => {
+      audioPlayerRef.current?.removeEventListener("play", handlePlay);
+      audioPlayerRef.current?.removeEventListener("pause", handlePause);
+    };
+  }, []);
+
   const hasNoResults = data?.pages.length === 1 && data.pages[0]?.data.length === 0;
 
   const onSearchSubmit = (value: string) => {
@@ -81,6 +115,17 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
             ) : (
               data?.pages.map((response) => {
                 return response.data.map((event) => {
+                  const audioSource = findAudioSource(event);
+                  const isPlayingTrack = !!(
+                    isAudioPlaying &&
+                    audioPlayerRef.current?.src &&
+                    audioPlayerRef.current.src === audioSource
+                  );
+                  const isPlayingAnotherTrack = !!(
+                    isAudioPlaying &&
+                    audioPlayerRef.current?.src &&
+                    audioPlayerRef.current.src !== audioSource
+                  );
                   return (
                     <GridItem key={event.id}>
                       <EventCard
@@ -95,6 +140,29 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
                         currency={event.currency}
                         isFeatured={event.featured}
                         venue={event.venue}
+                        isPlaying={isPlayingTrack}
+                        audioSrc={audioSource}
+                        onPlayClick={() => {
+                          if (!audioPlayerRef.current) {
+                            return;
+                          }
+
+                          if (isPlayingTrack) {
+                            audioPlayerRef.current.pause();
+                          } else if (isPlayingAnotherTrack) {
+                            audioPlayerRef.current.pause();
+                            setIsAudioPlaying(false);
+                            audioPlayerRef.current.src = audioSource!;
+                            audioPlayerRef.current.load();
+                            audioPlayerRef.current.play();
+                          } else {
+                            console.log("first play");
+
+                            audioPlayerRef.current.src = audioSource!;
+                            audioPlayerRef.current.load();
+                            audioPlayerRef.current.play();
+                          }
+                        }}
                       />
                     </GridItem>
                   );
@@ -140,6 +208,10 @@ function EmptyGridItems() {
       ))}
     </>
   );
+}
+
+function findAudioSource({ spotify_tracks, apple_music_tracks }: DiceEvent): string | null {
+  return spotify_tracks[0]?.preview_url ?? apple_music_tracks[0]?.preview_url ?? null;
 }
 
 export default EventListHome;
