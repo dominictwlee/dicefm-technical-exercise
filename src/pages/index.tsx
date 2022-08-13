@@ -1,5 +1,5 @@
 import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
-import { getEvents } from "@/modules/event/api";
+import { getEvents } from "../modules/event/api";
 import { DiceEvent, GetDiceEventsResponse } from "@/modules/event/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
@@ -9,10 +9,7 @@ import EventCard from "@/modules/event/EventCard";
 import EventSearchBar from "@/modules/event/EventSearchBar";
 import { capitalizeAllWords } from "@/common/utils/capitalize";
 
-interface EventListHomeProps {
-  events: GetDiceEventsResponse;
-}
-const EventListHome: NextPage<EventListHomeProps> = (props) => {
+const EventListHome: NextPage = () => {
   const [searchTerms, setSearchTerms] = useState("");
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
     useInfiniteQuery(

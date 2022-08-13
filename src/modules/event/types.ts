@@ -23,7 +23,7 @@ export interface DiceEvent {
   hash: string;
   venue: string;
   detailed_artists: {
-    headliner: true;
+    headliner: boolean;
     id: number;
     name: string;
   }[];
@@ -51,7 +51,7 @@ export interface DiceEvent {
     preview_url: string;
     title: string;
   }[];
-  show_price_breakdown: true;
+  show_price_breakdown: boolean;
   ticket_types: {
     id: number;
     name: string;
@@ -60,7 +60,7 @@ export interface DiceEvent {
       fees: number;
       total: number;
     };
-    sold_out: true;
+    sold_out: boolean;
   }[];
   external_url: null;
   promoters: {
@@ -79,8 +79,8 @@ export interface DiceEvent {
     name: string;
   }[];
   checksum: string;
-  featured: true;
-  sold_out: true;
+  featured: boolean;
+  sold_out: boolean;
   date: string;
   date_end: string;
   location: {
