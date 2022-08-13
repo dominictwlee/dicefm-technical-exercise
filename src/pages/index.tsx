@@ -38,15 +38,9 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
 
   useEffect(() => {
     function handlePlay() {
-      console.log("PLAY CALLED");
-
       setIsAudioPlaying(true);
     }
     function handlePause() {
-      console.log("PAUSE CALLED");
-
-      console.log("CALLED");
-
       setIsAudioPlaying(false);
     }
     const playListener = audioPlayerRef.current?.addEventListener("play", handlePlay);
@@ -153,8 +147,6 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
                             audioPlayerRef.current.load();
                             audioPlayerRef.current.play();
                           } else {
-                            console.log("first play");
-
                             audioPlayerRef.current.src = audioSource!;
                             audioPlayerRef.current.load();
                             audioPlayerRef.current.play();
