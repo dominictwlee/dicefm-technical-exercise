@@ -8,6 +8,7 @@ import lookup from "country-code-lookup";
 import { Currency } from "dinero.js";
 import Dinero from "dinero.js";
 import { DiceEvent } from "./types";
+import { useState } from "react";
 
 interface EventCardProps {
   saleStartDate: string;
@@ -35,6 +36,7 @@ export default function EventCard({
   isFeatured,
   venue,
 }: EventCardProps) {
+  const [isAccordianOpen, setIsAccordianOpen] = useState(false);
   const rawDate = new Date(date);
   const formattedDate = format(rawDate, "EEE d MMM");
   const formattedTime = format(rawDate, "h:mmaaa");
@@ -64,13 +66,17 @@ export default function EventCard({
     return <EventButton>book now</EventButton>;
   };
 
+  const onExpandableChange = () => {
+    setIsAccordianOpen((isOpen) => !isOpen);
+  };
+
   return (
-    <Box maxW="320px" minH="853px">
+    <Box maxW="320px" minH="853px" pb={2}>
       <EventImage
         eventImages={eventImages}
         saleStartDate={saleStartDate}
         isFeatured={isFeatured}
-        variant={EventImageVariant.Square}
+        variant={isAccordianOpen ? EventImageVariant.Landscape : EventImageVariant.Square}
         isFutureShowDate={isFutureShowDate}
       />
 
@@ -94,6 +100,7 @@ export default function EventCard({
       </Box>
 
       <EventInfoExpandable
+        onChange={onExpandableChange}
         description={description}
         lineup={lineup}
         ticketTypes={ticketTypes}

@@ -7,6 +7,7 @@ const textStyles = {
   title2: {
     fontSize: "24px",
     lineHeight: "28px",
+    fontWeight: "400",
   },
   subtitle1: {
     fontSize: "16px",

@@ -1,4 +1,5 @@
-import { Box, Image, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import { format, compareAsc } from "date-fns";
 import { ReactNode } from "react";
 import { DiceEvent } from "./types";
@@ -33,6 +34,7 @@ export default function EventImage({
   isFutureShowDate,
 }: EventImage) {
   const image = eventImages[variant];
+  console.log(image);
 
   function renderBadge() {
     if (isFutureShowDate) {
@@ -65,7 +67,12 @@ export default function EventImage({
 
   return (
     <Box w="320px">
-      <Image src={image} alt="Event Image" loading="lazy" />
+      <Image
+        src={image}
+        alt="Event Image"
+        width="320px"
+        height={variant === EventImageVariant.Landscape ? "160px" : "320px"}
+      />
       {renderBadge()}
     </Box>
   );

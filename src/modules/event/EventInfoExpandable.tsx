@@ -10,6 +10,7 @@ import {
   Text,
   List,
   ListItem,
+  ExpandedIndex,
 } from "@chakra-ui/react";
 import { PropsWithChildren, ReactElement } from "react";
 import { MdAdd, MdOutlineRemove, MdHorizontalRule } from "react-icons/md";
@@ -21,15 +22,17 @@ interface EventInfoExpandableProps {
   lineup: DiceEvent["lineup"];
   ticketTypes: DiceEvent["ticket_types"];
   currency: Currency;
+  onChange?: (expandedIndex: ExpandedIndex) => void;
 }
 export default function EventInfoExpandable({
   lineup,
   ticketTypes,
   currency,
   description,
+  onChange,
 }: EventInfoExpandableProps) {
   return (
-    <Accordion allowToggle>
+    <Accordion allowToggle onChange={onChange}>
       <AccordionItem>
         {({ isExpanded }) => (
           <>
