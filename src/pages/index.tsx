@@ -59,8 +59,6 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
             </GridItem>
 
             {data?.pages.map((response) => {
-              console.log(response);
-
               return response.data.map((event) => {
                 return (
                   <GridItem key={event.id}>
