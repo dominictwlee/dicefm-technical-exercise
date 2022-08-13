@@ -2,12 +2,12 @@ import { Box, Heading, ListItem, Text } from "@chakra-ui/react";
 import EventImage, { EventImageVariant } from "./EventImage";
 import EventInfoExpandable from "./EventInfoExpandable";
 import EventButton from "./EventButton";
-import { DiceEvent } from "./api";
 import { LongDashIcon } from "@/common/components/icons";
 import { compareAsc, format } from "date-fns";
 import lookup from "country-code-lookup";
 import { Currency } from "dinero.js";
 import Dinero from "dinero.js";
+import { DiceEvent } from "./types";
 
 interface EventCardProps {
   saleStartDate: string;

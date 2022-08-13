@@ -14,7 +14,7 @@ import {
 import { PropsWithChildren, ReactElement } from "react";
 import { MdAdd, MdOutlineRemove, MdHorizontalRule } from "react-icons/md";
 import Dinero, { Currency } from "dinero.js";
-import { DiceEvent } from "./api";
+import { DiceEvent } from "./types";
 
 interface EventInfoExpandableProps {
   description: string;

@@ -1,108 +1,50 @@
-import { Currency } from "dinero.js";
+import ky from "ky-universal";
+import { GetDiceEventsResponse } from "./types";
 
-export interface DiceEvent {
-  age_limit: string;
-  sale_end_date: string;
-  raw_description: string;
-  status: string;
-  images: string[];
-  apple_music_tracks: {
-    open_url: string;
-    preview_url: string;
-    title: string;
-  }[];
-  event_images: {
-    brand: null;
-    landscape: string;
-    portrait: string;
-    square: string;
+const api = ky.extend({
+  prefixUrl: "https://events-api.dice.fm/v1",
+  hooks: {
+    beforeRequest: [
+      (request) => {
+        if (process.env.NEXT_PUBLIC_API_KEY) {
+          request.headers.set("x-api-key", process.env.NEXT_PUBLIC_API_KEY);
+        }
+      },
+    ],
+  },
+});
+
+interface GetEventsSearchParams {
+  filter?: {
+    venue: string;
   };
-  name: string;
-  presented_by: string;
-  genre_tags: string[];
-  hash: string;
-  venue: string;
-  detailed_artists: {
-    headliner: true;
-    id: number;
-    name: string;
-  }[];
-  type: string;
-  price: null;
-  venues: {
-    city: {
-      code: string;
-      country_alpha3: string;
-      country_id: string;
-      country_name: string;
-      id: string;
-      name: string;
-    };
-    id: number;
-    name: string;
-  }[];
-  url: string;
-  address: string;
-  announcement_date: string;
-  currency: Currency;
-  id: string;
-  spotify_tracks: {
-    open_url: string;
-    preview_url: string;
-    title: string;
-  }[];
-  show_price_breakdown: true;
-  ticket_types: {
-    id: number;
-    name: string;
-    price: {
-      face_value: number;
-      fees: number;
-      total: number;
-    };
-    sold_out: true;
-  }[];
-  external_url: null;
-  promoters: {
-    id: number;
-    name: string;
-  }[];
-  int_id: number;
-  destination_event_perm_name: null;
-  type_tags: string[];
-  cities: {
-    code: string;
-    country_alpha3: string;
-    country_id: string;
-    country_name: string;
-    id: string;
-    name: string;
-  }[];
-  checksum: string;
-  featured: true;
-  sold_out: true;
-  date: string;
-  date_end: string;
-  location: {
-    accuracy: number;
-    city: string;
-    country: string;
-    lat: number;
-    lng: number;
-    place: string;
+  page?: {
+    number: number;
+    size?: number;
   };
-  flags: string[];
-  perm_name: string;
-  links: string[];
-  artists: string[];
-  timezone: string;
-  tags: string[];
-  destination_event_id: null;
-  sale_start_date: string;
-  lineup: {
-    details: string;
-    time: string;
-  }[];
-  linkout_type: null;
-  description: string;
+}
+
+export function getEvents(params?: GetEventsSearchParams): Promise<GetDiceEventsResponse> {
+  const searchParams: Record<string, string> = {
+    "page[size]": "12",
+  };
+
+  if (params?.filter?.venue) {
+    searchParams["filter[venue]"] = params.filter.venue;
+  }
+
+  if (params?.page) {
+    if (params.page.number) {
+      searchParams["page[number]"] = params.page.number.toString();
+    }
+    if (params.page.size) {
+      searchParams["page[size]"] = params.page.size.toString();
+    }
+  }
+
+  return api
+    .get("events", {
+      searchParams: new URLSearchParams(searchParams),
+    })
+    .json<GetDiceEventsResponse>();
 }

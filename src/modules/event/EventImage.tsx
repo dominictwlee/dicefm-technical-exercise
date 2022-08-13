@@ -1,7 +1,7 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import { format, compareAsc } from "date-fns";
 import { ReactNode } from "react";
-import { DiceEvent } from "./api";
+import { DiceEvent } from "./types";
 
 export enum EventImageVariant {
   Square = "square",
@@ -65,7 +65,7 @@ export default function EventImage({
 
   return (
     <Box w="320px">
-      <Image src={image} alt="Event Image" />
+      <Image src={image} alt="Event Image" loading="lazy" />
       {renderBadge()}
     </Box>
   );
