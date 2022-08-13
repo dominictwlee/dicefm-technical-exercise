@@ -29,10 +29,6 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
     );
   const hasNoResults = data?.pages.length === 1 && data.pages[0]?.data.length === 0;
 
-  console.log(hasNextPage, "HAS NEXT PAGE");
-  console.log(hasNoResults, "HAS NO RESULTS");
-  console.log(searchTerms, "SEARCH TERMS");
-
   const onSearchSubmit = (value: string) => {
     setSearchTerms(capitalizeAllWords(value));
   };

@@ -41,7 +41,7 @@ export default function EventImage({
       return (
         <Box
           position="relative"
-          bottom={`${onSaleBadgeDimensions.h + 8}px`}
+          bottom={`${onSaleBadgeDimensions.h + 16}px`}
           left={`calc(100% - ${onSaleBadgeDimensions.w + 12}px)`}
         >
           <OnSaleBadge>{formattedShowDate}</OnSaleBadge>
@@ -53,7 +53,7 @@ export default function EventImage({
       return (
         <Box
           position="relative"
-          bottom={`${featuredBadgeDimensions.h + 8}px`}
+          bottom={`${featuredBadgeDimensions.h + 16}px`}
           left={`calc(100% - ${featuredBadgeDimensions.w + 12}px)`}
         >
           <FeaturedBadge />

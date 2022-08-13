@@ -42,8 +42,8 @@ export default function EventCard({
   const formattedTime = format(rawDate, "h:mmaaa");
   const formattedLocation = `${location.city}, ${lookup.byCountry(location.country)?.fips}`;
   const isSoldOut = ticketTypes.every((ticketType) => ticketType.sold_out);
-  const showDate = new Date(saleStartDate);
-  const isFutureShowDate = compareAsc(new Date(), showDate) === -1;
+  const onSaleDate = new Date(saleStartDate);
+  const isFutureSaleDate = compareAsc(new Date(), onSaleDate) === -1;
   const hasMultipleTicketTypes = ticketTypes.length > 1;
   const lowestTicketPrice = ticketTypes[0]?.price.total ?? 0;
   const parsedLowestTicketPrice = Dinero({
@@ -59,7 +59,7 @@ export default function EventCard({
       return <EventButton disabled>sold out</EventButton>;
     }
 
-    if (isFutureShowDate) {
+    if (isFutureSaleDate) {
       return <EventButton>get reminded</EventButton>;
     }
 
@@ -77,7 +77,7 @@ export default function EventCard({
         saleStartDate={saleStartDate}
         isFeatured={isFeatured}
         variant={isAccordianOpen ? EventImageVariant.Landscape : EventImageVariant.Square}
-        isFutureShowDate={isFutureShowDate}
+        isFutureShowDate={isFutureSaleDate}
       />
 
       <Box textStyle="caption1" display="flex" alignItems="center" my={2}>
