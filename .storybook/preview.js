@@ -1,6 +1,12 @@
+const NextImage = require("next/image");
 const theme = require("../src/modules/theme").default;
 
-console.log(theme);
+const OriginalNextImage = NextImage.default;
+
+Object.defineProperty(NextImage, "default", {
+  configurable: true,
+  value: (props) => <OriginalNextImage {...props} unoptimized />,
+});
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
