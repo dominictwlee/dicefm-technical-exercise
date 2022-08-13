@@ -28,14 +28,11 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
       }
     );
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
-  const [isAudioPlayerReady, setIsAudioPlayerReady] = useState(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
   useEffect(() => {
     if (audioPlayerRef.current === null) {
       audioPlayerRef.current = new Audio();
-      setIsAudioPlayerReady(true);
-      console.log("called");
     }
   }, []);
 
