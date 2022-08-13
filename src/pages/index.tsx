@@ -1,4 +1,4 @@
-import { Box, SimpleGrid, Grid, Center, Heading, GridItem } from "@chakra-ui/react";
+import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
 import { getEvents } from "@/modules/event/api";
 import { GetDiceEventsResponse } from "@/modules/event/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -15,10 +15,23 @@ interface EventListHomeProps {
 const EventListHome: NextPage<EventListHomeProps> = (props) => {
   const [searchTerms, setSearchTerms] = useState("");
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
-    useInfiniteQuery(["events", { searchTerms }], ({ pageParam = 1 }) =>
-      getEvents({ filter: { venue: searchTerms }, page: { number: pageParam } })
+    useInfiniteQuery(
+      ["events", { searchTerms }],
+      ({ pageParam = 1 }) =>
+        getEvents({ filter: { venue: searchTerms }, page: { number: pageParam } }),
+      {
+        getNextPageParam: (lastPage) => {
+          if (lastPage.links.next) {
+            return new URL(lastPage.links.next).searchParams.get("page[number]");
+          }
+        },
+      }
     );
   const hasNoResults = data?.pages.length === 1 && data.pages[0]?.data.length === 0;
+
+  console.log(hasNextPage, "HAS NEXT PAGE");
+  console.log(hasNoResults, "HAS NO RESULTS");
+  console.log(searchTerms, "SEARCH TERMS");
 
   const onSearchSubmit = (value: string) => {
     setSearchTerms(capitalizeAllWords(value));
@@ -91,6 +104,28 @@ const EventListHome: NextPage<EventListHomeProps> = (props) => {
                   );
                 });
               })
+            )}
+            {hasNextPage && (
+              <GridItem
+                justifySelf="start"
+                colSpan={{
+                  base: 1,
+                  md: 2,
+                  lg: 3,
+                  "2xl": 4,
+                }}
+              >
+                <Button
+                  onClick={() => fetchNextPage()}
+                  variant="outline"
+                  colorScheme="primary"
+                  isLoading={isFetchingNextPage}
+                  borderRadius="full"
+                  size="lg"
+                >
+                  Load More
+                </Button>
+              </GridItem>
             )}
           </Grid>
         </Center>
