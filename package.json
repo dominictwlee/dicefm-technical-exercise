@@ -4,17 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "qa": "cross-env NODE_ENV=test next dev",
     "build": "next build",
+    "qa": "cross-env NODE_ENV=test next dev",
+    "build:qa": "cross-env NODE_ENV=test next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "pretest:e2e:run": "npm run build",
-    "test:e2e:run": "start-server-and-test start http://localhost:8080 cy:run",
-    "test:e2e:dev": "start-server-and-test dev http://localhost:8080 cy:open"
+    "pretest:e2e:run": "cross-env NODE_ENV=test npm run build:qa",
+    "test:e2e:run": "start-server-and-test start http://localhost:3000 cy:run",
+    "test:e2e:open": "start-server-and-test qa http://localhost:3000 cy:open"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.2.6",

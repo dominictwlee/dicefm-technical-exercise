@@ -1,6 +1,12 @@
 import ky from "ky";
 import { GetDiceEventsResponse } from "./types";
 
+export interface GetEventParams {
+  "filter[venue]": string;
+  "page[number]": string;
+  "page[size]": string;
+}
+
 const api = ky.extend({
   prefixUrl: "https://events-api.dice.fm/v1",
   hooks: {

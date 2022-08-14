@@ -1,5 +1,5 @@
 export function capitalizeAllWords(input: string) {
-  return input.split(" ").map(capitalize).join(" ");
+  return input.split(" ").map(capitalize).join(" ").trim();
 }
 
 export function capitalize(input: string) {

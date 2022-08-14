@@ -31,14 +31,11 @@ export default function EventSearchBar({ status, onSubmit }: EventSearchBarProps
   return (
     <Box maxW="640px">
       <form onSubmit={handleSubmit}>
-        <FormControl>
-          <FormLabel htmlFor="venueSearch" hidden>
-            Venue Search
-          </FormLabel>
+        <FormControl id="venue-search">
+          <FormLabel htmlFor="venue-search">Venue Search</FormLabel>
           <InputGroup size="lg">
             <Input
-              id="venueSearch"
-              name="venueSearch"
+              name="venue-search"
               pr="4.5rem"
               borderRadius="full"
               focusBorderColor="primary.300"
