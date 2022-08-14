@@ -1,29 +1,17 @@
 import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
-import { getEvents } from "../modules/event/api";
-import { DiceEvent, GetDiceEventsResponse } from "@/modules/event/types";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { DiceEvent } from "@/modules/event/types";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 import EventCard from "@/modules/event/EventCard";
 import EventSearchBar from "@/modules/event/EventSearchBar";
 import { capitalizeAllWords } from "@/common/utils/capitalize";
+import { useInfiniteSearchEvents } from "@/modules/event/hooks";
 
 const EventListHome: NextPage = () => {
   const [searchTerms, setSearchTerms] = useState("");
-  const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } =
-    useInfiniteQuery(
-      ["events", { searchTerms }],
-      ({ pageParam = 1 }) =>
-        getEvents({ filter: { venue: searchTerms }, page: { number: pageParam } }),
-      {
-        getNextPageParam: (lastPage) => {
-          if (lastPage.links.next) {
-            return new URL(lastPage.links.next).searchParams.get("page[number]");
-          }
-        },
-      }
-    );
+  const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteSearchEvents(searchTerms);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
 
