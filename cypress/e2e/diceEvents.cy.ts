@@ -98,7 +98,7 @@ describe("Dice Events Infinite List", () => {
   });
 });
 
-describe.only("Error or No Content Event Search", () => {
+describe("Error or No Content Event Search", () => {
   before(() => {
     cy.visit("/");
   });
