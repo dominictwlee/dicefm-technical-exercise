@@ -2,40 +2,18 @@ import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
 import { DiceEvent } from "@/modules/event/types";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import EventCard from "@/modules/event/EventCard";
 import EventSearchBar from "@/modules/event/EventSearchBar";
 import { capitalizeAllWords } from "@/common/utils/capitalize";
 import { useInfiniteSearchEvents } from "@/modules/event/hooks";
+import useAudioTrackPlayer from "@/common/hooks/useAudioTrackPlayer";
 
 const EventListHome: NextPage = () => {
   const [searchTerms, setSearchTerms] = useState("");
   const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteSearchEvents(searchTerms);
-  const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-
-  useEffect(() => {
-    if (audioPlayerRef.current === null) {
-      audioPlayerRef.current = new Audio();
-    }
-  }, []);
-
-  useEffect(() => {
-    function handlePlay() {
-      setIsAudioPlaying(true);
-    }
-    function handlePause() {
-      setIsAudioPlaying(false);
-    }
-    const playListener = audioPlayerRef.current?.addEventListener("play", handlePlay);
-    const pauseListener = audioPlayerRef.current?.addEventListener("pause", handlePause);
-
-    () => {
-      audioPlayerRef.current?.removeEventListener("play", handlePlay);
-      audioPlayerRef.current?.removeEventListener("pause", handlePause);
-    };
-  }, []);
+  const audio = useAudioTrackPlayer();
 
   const hasNoResults = data?.pages.length === 1 && data.pages[0]?.data.length === 0;
 
@@ -94,14 +72,14 @@ const EventListHome: NextPage = () => {
                 return response.data.map((event) => {
                   const audioSource = findAudioSource(event);
                   const isPlayingTrack = !!(
-                    isAudioPlaying &&
-                    audioPlayerRef.current?.src &&
-                    audioPlayerRef.current.src === audioSource
+                    audio.isAudioPlaying &&
+                    audio.getSrc() &&
+                    audio.getSrc() === audioSource
                   );
                   const isPlayingAnotherTrack = !!(
-                    isAudioPlaying &&
-                    audioPlayerRef.current?.src &&
-                    audioPlayerRef.current.src !== audioSource
+                    audio.isAudioPlaying &&
+                    audio.getSrc() &&
+                    audio.getSrc() !== audioSource
                   );
                   return (
                     <GridItem key={event.id} data-testid={`event_${event.id}`}>
@@ -120,22 +98,22 @@ const EventListHome: NextPage = () => {
                         isPlaying={isPlayingTrack}
                         audioSrc={audioSource}
                         onPlayClick={() => {
-                          if (!audioPlayerRef.current) {
+                          if (!audio.isReady()) {
                             return;
                           }
 
                           if (isPlayingTrack) {
-                            audioPlayerRef.current.pause();
+                            audio.pause();
                           } else if (isPlayingAnotherTrack) {
-                            audioPlayerRef.current.pause();
-                            setIsAudioPlaying(false);
-                            audioPlayerRef.current.src = audioSource!;
-                            audioPlayerRef.current.load();
-                            audioPlayerRef.current.play();
+                            audio.pause();
+                            audio.setIsAudioPlaying(false);
+                            audio.setSrc(audioSource!);
+                            audio.load();
+                            audio.play();
                           } else {
-                            audioPlayerRef.current.src = audioSource!;
-                            audioPlayerRef.current.load();
-                            audioPlayerRef.current.play();
+                            audio.setSrc(audioSource!);
+                            audio.load();
+                            audio.play();
                           }
                         }}
                       />
