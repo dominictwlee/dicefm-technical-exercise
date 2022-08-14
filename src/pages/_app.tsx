@@ -2,7 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from "@/modules/theme";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import initMSW from "../mocks";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClientRef = useRef(
@@ -14,6 +15,23 @@ function MyApp({ Component, pageProps }: AppProps) {
       },
     })
   );
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    async function initMocks() {
+      await initMSW();
+      setShouldRender(true);
+    }
+
+    if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+      initMocks();
+    }
+  }, []);
+
+  if (!shouldRender) {
+    return null;
+  }
+
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <ChakraProvider theme={theme}>

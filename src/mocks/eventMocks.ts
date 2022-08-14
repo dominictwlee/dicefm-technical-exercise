@@ -162,7 +162,7 @@ export function createMockDiceEventResponse(
   links: Partial<GetDiceEventsResponse["links"]> = {}
 ) {
   const mockDiceEventResponse = {
-    data: [],
+    data: events,
     links: {
       next: "https://events-api.dice.fm/v1/events?filter[venues]=The+Waiting+Room&page[number]=2&page[size]=1",
       self: "https://events-api.dice.fm/v1/events?filter[venues]=The+Waiting+Room&page[size]=1",
