@@ -5,14 +5,13 @@ import {
   AccordionPanel,
   Box,
   Icon,
-  useDisclosure,
   Heading,
   Text,
   List,
   ListItem,
   ExpandedIndex,
 } from "@chakra-ui/react";
-import { PropsWithChildren, ReactElement } from "react";
+import { ReactElement } from "react";
 import { MdAdd, MdOutlineRemove, MdHorizontalRule } from "react-icons/md";
 import Dinero, { Currency } from "dinero.js";
 import { DiceEvent } from "./types";
