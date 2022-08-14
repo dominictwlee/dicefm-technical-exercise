@@ -27,7 +27,6 @@
     "dinero.js": "^1.9.1",
     "framer-motion": "^7.1.0",
     "ky": "^0.31.1",
-    "ky-universal": "^0.10.1",
     "next": "12.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
