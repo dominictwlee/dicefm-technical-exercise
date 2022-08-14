@@ -88,7 +88,7 @@ const EventListHome: NextPage = () => {
                 "2xl": 4,
               }}
             >
-              {hasNoResults ? (
+              {hasNoResults || error ? (
                 <Heading variant="title2" as="h1" textAlign="start">
                   {"Sorry...we couldn't find anything"}
                 </Heading>
@@ -99,7 +99,7 @@ const EventListHome: NextPage = () => {
               )}
             </GridItem>
 
-            {hasNoResults ? (
+            {hasNoResults || error ? (
               <EmptyGridItems />
             ) : (
               data?.pages.map((response) => {

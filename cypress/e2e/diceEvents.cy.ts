@@ -98,4 +98,29 @@ describe("Dice Events Infinite List", () => {
   });
 });
 
+describe.only("Error or No Content Event Search", () => {
+  before(() => {
+    cy.visit("/");
+  });
+
+  it("shows empty results placeholder on error", () => {
+    // Allow worker a bit of time to initiate
+    cy.wait(1000);
+    cy.window().then((window) => {
+      const { worker, rest } = window.msw;
+      worker.use(
+        rest.get<any, GetEventParams, GetDiceEventsResponse>(
+          "https://events-api.dice.fm/v1/events",
+          (req, res, ctx) => {
+            return res(ctx.status(500));
+          }
+        )
+      );
+
+      cy.findByLabelText(/venue search/i, { timeout: 7000 }).type("a{enter}");
+      cy.findByText(/sorry/i).should("exist");
+    });
+  });
+});
+
 export {};
