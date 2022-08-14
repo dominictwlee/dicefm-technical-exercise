@@ -1,5 +1,4 @@
 import { Box, Grid, Center, Heading, GridItem, Button } from "@chakra-ui/react";
-import { DiceEvent } from "@/modules/event/types";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
@@ -8,6 +7,7 @@ import EventSearchBar from "@/modules/event/EventSearchBar";
 import { capitalizeAllWords } from "@/common/utils/capitalize";
 import { useInfiniteSearchEvents } from "@/modules/event/hooks";
 import useAudioTrackPlayer from "@/common/hooks/useAudioTrackPlayer";
+import { findAudioSource } from "@/modules/event/utils";
 
 const EventListHome: NextPage = () => {
   const [searchTerms, setSearchTerms] = useState("");
@@ -161,10 +161,6 @@ function EmptyGridItems() {
       ))}
     </>
   );
-}
-
-function findAudioSource({ spotify_tracks, apple_music_tracks }: DiceEvent): string | null {
-  return spotify_tracks[0]?.preview_url ?? apple_music_tracks[0]?.preview_url ?? null;
 }
 
 export default EventListHome;
